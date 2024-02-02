@@ -1,0 +1,27 @@
+div#formulario_usuarios {
+    width: 400px;
+    margin-left: calc(50% - 200px);
+    border: solid 1px #ebebeb;
+    padding: 25px;
+    margin-top: 51px;
+    border-radius: 15px;
+    background: lightgray;
+}
+
+button.btn.btn-primary {
+    border-radius: 15px;
+}
+
+table.table.table-bordered {
+    margin-top: 50px;
+}
+
+div#peticionEmail {
+    width: 400px;
+    margin-left: calc(50% - 200px);
+    border: solid 1px #ebebeb;
+    padding: 25px;
+    margin-top: 51px;
+    border-radius: 15px;
+    background: lightgray;
+}
