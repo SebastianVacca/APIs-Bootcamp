@@ -1,8 +1,36 @@
 var usuariosModel = {}
 
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
+
+var usuariosSchema = new Schema({
+    nombre: String,
+    apellidos: String,
+    direccion: String,
+    telefono: Number,
+    email: String,
+    password: String
+})
+
+const users = mongoose.model("usuarios", usuariosSchema)
+
+
 usuariosModel.Guardar = function(payload, callback){
-    database.push(payload)
-    return callback ({state: true, mensaje: "registro exitoso"})
+
+    const instancia = new users
+    instancia.nombre = payload.nombre
+    instancia.apellidos = payload.apellidos
+    instancia. direccion = payload.direccion
+    instancia.telefono =  payload.telefono
+    instancia.email = payload.email
+    instancia.password = payload.password   
+
+    instancia.save().then((respuesta) => {
+        console.log(respuesta)
+        return callback ({state: true, mensaje: "registro exitoso"})
+    })
+    
+    
 }
 
 usuariosModel.Actualizar = function (payload, callback){
