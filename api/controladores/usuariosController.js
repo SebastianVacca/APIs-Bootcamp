@@ -1,5 +1,5 @@
 var usuariosController = {}
-var usuariosModel = require("../modelos/usuariosModel.js").usuariosModel 
+var usuariosModel = require("../modelos/usuariosModel.js").usuariosModel
 
 
 usuariosController.Guardar = function (request, response) {
@@ -31,19 +31,16 @@ usuariosController.Guardar = function (request, response) {
         return false
     }
 
-    usuariosModel.buscarEmail(informacion, function(posicion){
-        if(posicion == -1){
+    usuariosModel.buscarEmail(informacion, function (posicion) {
+
+        if (posicion.length == 0) {
             usuariosModel.Guardar(informacion, function (respuestamodelo) {
                 response.json(respuestamodelo)
             })
         } else {
-            response.json({state: false, mensaje: " este correo ya se encuentra registrado"})
+            response.json({ state: false, mensaje: " este correo ya se encuentra registrado" })
         }
     })
-
-    // usuariosModel.Guardar(informacion, function (respuestamodelo) {
-    //     response.json(respuestamodelo)
-    // })
 }
 
 usuariosController.Actualizar = function (request, response) {
@@ -66,14 +63,13 @@ usuariosController.Actualizar = function (request, response) {
         return false
     }
 
-    usuariosModel.Actualizar(informacion, function (posicion) {
-        if (posicion == -1) {
-            response.json({ state: false, mensaje: "credenciales inválidas" })
-            return false
-        } else {
+    usuariosModel.buscarEmail(informacion, function (posicion) {
 
-            informacion.posicion = posicion
-            usuariosModel.actualizaclave(informacion, function (respuesta) {
+        if (posicion.length == 0) {
+            response.json({ state: false, mensaje: " datos incorrectos" })
+
+        } else {
+            usuariosModel.Actualizar(informacion, function (respuesta) {
                 response.json(respuesta)
             })
         }
@@ -87,7 +83,7 @@ usuariosController.listarTodos = function (request, response) {
     })
 }
 
-usuariosController.Borrar = function (request, response){
+usuariosController.Borrar = function (request, response) {
     var informacion = {
         email: request.body.email
     }
@@ -96,23 +92,23 @@ usuariosController.Borrar = function (request, response){
         response.json({ state: false, mensaje: "El email es un campo obligatorio" })
         return false
     }
-    
 
-    usuariosModel.buscarEmail(informacion, function(posicion){
-        if (posicion == -1) {
-            response.json({ state: false, mensaje: "Este usuario no existe, no se puede borrar" })
-            return false
+    usuariosModel.buscarEmail(informacion, function (posicion) {
+
+        if (posicion.length == 0) {
+            response.json({ state: false, mensaje: " datos incorrectos" })
+
         } else {
-            informacion.posicion = posicion
-            usuariosModel.Borrar(informacion, function(respuesta){
+            usuariosModel.Borrar(informacion, function (respuesta) {
                 response.json(respuesta)
             })
         }
     })
-    
+
+
 }
 
-usuariosController.listarEmail = function (request, response){
+usuariosController.listarEmail = function (request, response) {
     var informacion = {
         email: request.body.email,
     }
@@ -122,23 +118,27 @@ usuariosController.listarEmail = function (request, response){
         return false
     }
 
-    usuariosModel.buscarEmail(informacion, function(posicion){
-        if (posicion == -1 ){
-            response.json({ state: false, mensaje: "El email no está asociado a ningún usuario registrado" })
-            return false
-        } else {
-            informacion.posicion = posicion
-            usuariosModel.filtro(informacion, function(listarEmail){
-               response.json(listarEmail)
-            })
-            
-        }
+    usuariosModel.filtro(informacion, function (respuesta) {
+        console.log(respuesta)
+        response.json(respuesta)
     })
-    
 
 }
 
-usuariosController.cargarformulario = function( request, response){
+// usuariosModel.buscarEmail(informacion, function (posicion) {
+//     if (posicion == -1) {
+//         response.json({ state: false, mensaje: "El email no está asociado a ningún usuario registrado" })
+//         return false
+//     } else {
+//         informacion.posicion = posicion
+//         usuariosModel.filtro(informacion, function (listarEmail) {
+//             response.json(listarEmail)
+//         })
+
+//     }
+// })
+
+usuariosController.cargarformulario = function (request, response) {
     var informacion = {
         email: request.body.email,
     }
@@ -148,7 +148,7 @@ usuariosController.cargarformulario = function( request, response){
         return false
     }
 
-    usuariosModel.cargarformulario(informacion, function(respuesta){
+    usuariosModel.cargarformulario(informacion, function (respuesta) {
         response.json(respuesta)
     })
 }

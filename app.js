@@ -16,6 +16,8 @@ global.database = []
 require("./rutas.js")
 mongoose.connect("mongodb://127.0.0.1:27017/" + config.nombredb, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta) => {
     console.log("conexión correcta a mongo")
+}).catch((error) => {
+    console.log(error)
 })
    
 app.listen(config.puerto, () => console.log("servidor corriendo por el puerto " + config.puerto))
